@@ -1,6 +1,7 @@
 import pandas as pd
 import sqlFunctions as sfn
 import configparser as cp
+from sqlalchemy import text
 
 #reading config file
 config=cp.ConfigParser()
@@ -15,6 +16,9 @@ with open ('.\SqlScripts\getPackages.sql','r') as file:
 
 with open(r'.\SqlScripts\newPackages.sql','r') as file:
     new_map_query=file.read()
+
+with open(r'.\SqlScripts\updatePackages.sql','r') as file:
+    update_map_query=file.read()
 
 #getting list of servers
 cntrl_sql_connection=sfn.open_sql_connection(ssis_server_list,ssis_server_database)
@@ -34,3 +38,10 @@ df_packages_details.to_sql('___SSISpackages',cntrl_sql_connection,schema='dbo',i
 #getting new maps
 df_new_maps=pd.read_sql_query(new_map_query,cntrl_sql_connection)
 print(df_new_maps)
+
+#update new map details
+update_map_querys=update_map_query.split('GO')
+with cntrl_sql_connection.connect() as connection:
+    for update_query in update_map_querys:
+        if update_query.strip():
+            connection.execute(text(update_query.strip()))
