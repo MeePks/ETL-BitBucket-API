@@ -5,7 +5,7 @@ select @@servername DeployedServer,
 		last_deployed_time LastDeployedTime,
 		prj.created_time CreatedTime,
 		p.name as PackageName,
-		GetDate() Date
+		Cast(GetDate() as date) Date
 	from ssisdb.catalog.packages p
 		inner join 
 			SSISDB.catalog.projects prj
