@@ -1,4 +1,4 @@
-select sp.AuditName,Cast(sp.numofmaps-sds.numofmaps as int) NewMaps
+select sp.AuditName,Cast(sp.numofmaps-sds.numofmaps as int) NewMaps,Cast(Getdate() as Date) as DateReportCreated
 from dbo.___ssisDeployedServers sds
 inner join 
  (SELECT auditname,count(*) numofmaps 

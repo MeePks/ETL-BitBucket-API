@@ -37,7 +37,7 @@ df_packages_details.to_sql('___SSISpackages',cntrl_sql_connection,schema='dbo',i
 
 #getting new maps
 df_new_maps=pd.read_sql_query(new_map_query,cntrl_sql_connection)
-print(df_new_maps)
+df_new_maps.to_sql('___NewPackages',cntrl_sql_connection,schema='dbo',if_exists='replace',index=False)
 
 #update new map details
 update_map_querys=update_map_query.split('GO')
