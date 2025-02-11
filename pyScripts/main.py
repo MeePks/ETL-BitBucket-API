@@ -5,19 +5,19 @@ from sqlalchemy import text
 
 #reading config file
 config=cp.ConfigParser()
-config.read('config.ini')
+config.read(r'Y:\Data\Retail\WalmartMX\Development\Pikesh.Maharjan\ETL-BitBucket-API\config.ini')
 ssis_server_list=config['sqlconn']['ssis_deployed_list_server']
 ssis_server_database=config['sqlconn']['ssis_deployed_list_database']
 ssis_server_table=config['sqlconn']['ssis_deployed_list_table']
 
 #reading sql query from sql scripts
-with open ('.\SqlScripts\getPackages.sql','r') as file:
+with open (r'Y:\Data\Retail\WalmartMX\Development\Pikesh.Maharjan\ETL-BitBucket-API\SqlScripts\getPackages.sql','r') as file:
     ssis_server_query=file.read()
 
-with open(r'.\SqlScripts\newPackages.sql','r') as file:
+with open(r'Y:\Data\Retail\WalmartMX\Development\Pikesh.Maharjan\ETL-BitBucket-API\SqlScripts\newPackages.sql','r') as file:
     new_map_query=file.read()
 
-with open(r'.\SqlScripts\updatePackages.sql','r') as file:
+with open(r'Y:\Data\Retail\WalmartMX\Development\Pikesh.Maharjan\ETL-BitBucket-API\SqlScripts\updatePackages.sql','r') as file:
     update_map_query=file.read()
 
 #getting list of servers
@@ -45,3 +45,5 @@ with cntrl_sql_connection.connect() as connection:
     for update_query in update_map_querys:
         if update_query.strip():
             connection.execute(text(update_query.strip()))
+            connection.commit()
+
